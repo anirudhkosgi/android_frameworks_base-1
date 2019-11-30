@@ -163,7 +163,6 @@ public class BatteryMeterViewControllerTest extends SysuiTestCase {
                 mBatteryMeterView,
                 mUserTracker,
                 mConfigurationController,
-                mTunerService,
                 mHandler,
                 mContentResolver,
                 mFeatureFlags,

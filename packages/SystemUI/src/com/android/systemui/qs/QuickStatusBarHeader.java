@@ -16,6 +16,9 @@ package com.android.systemui.qs;
 
 import static android.app.StatusBarManager.DISABLE2_QUICK_SETTINGS;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+import static com.android.systemui.battery.BatteryMeterView.BATTERY_STYLE_CIRCLE;
+import static com.android.systemui.battery.BatteryMeterView.BATTERY_STYLE_DOTTED_CIRCLE;
+import static com.android.systemui.battery.BatteryMeterView.BATTERY_STYLE_FULL_CIRCLE;
 
 import android.content.Context;
 import android.content.res.Configuration;
@@ -303,12 +306,10 @@ public class QuickStatusBarHeader extends FrameLayout {
             if (mTintedIconManager != null) {
                 mTintedIconManager.setTint(textColor);
             }
-            final int batteryStyle = mBatteryRemainingIcon.getBatteryStyle();
-            if (batteryStyle == BATTERY_STYLE_CIRCLE
-                    || batteryStyle == BATTERY_STYLE_DOTTED_CIRCLE
-                    || batteryStyle == BATTERY_STYLE_FULL_CIRCLE) {
-                textColorSecondary = Utils.getColorAttrDefaultColor(mContext,
-                        android.R.attr.textColorHint);
+            if (mBatteryRemainingIcon.getBatteryStyle() == BATTERY_STYLE_CIRCLE
+                    || mBatteryRemainingIcon.getBatteryStyle() == BATTERY_STYLE_DOTTED_CIRCLE
+                    || mBatteryRemainingIcon.getBatteryStyle() == BATTERY_STYLE_FULL_CIRCLE) {
+                textColorSecondary = reduceColorAlpha(textColor, 0.3f);
             }
             mBatteryRemainingIcon.updateColors(mTextColorPrimary, textColorSecondary,
                     mTextColorPrimary);
@@ -331,6 +332,14 @@ public class QuickStatusBarHeader extends FrameLayout {
         updateAnimators();
 
         updateClockDatePadding();
+    }
+
+    private static int reduceColorAlpha(int color, float factor) {
+        final int a = Math.round(Color.alpha(color) * factor);
+        final int r = Color.red(color);
+        final int g = Color.green(color);
+        final int b = Color.blue(color);
+        return Color.argb(a, r, g, b);
     }
 
     private void updateClockDatePadding() {

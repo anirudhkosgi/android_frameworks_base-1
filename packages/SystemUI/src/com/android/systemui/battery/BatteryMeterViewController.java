@@ -90,6 +90,7 @@ public class BatteryMeterViewController extends ViewController<BatteryMeterView>
                 @Override
                 public void onUserChanged(int newUser, @NonNull Context userContext) {
                     mContentResolver.unregisterContentObserver(mSettingObserver);
+                    registerBatteryStyleObserver(newUser);
                     registerShowBatteryPercentObserver(newUser);
                     mView.updateShowPercent();
                 }
@@ -100,7 +101,6 @@ public class BatteryMeterViewController extends ViewController<BatteryMeterView>
             BatteryMeterView view,
             UserTracker userTracker,
             ConfigurationController configurationController,
-            BroadcastDispatcher broadcastDispatcher,
             @Main Handler mainHandler,
             ContentResolver contentResolver,
             FeatureFlags featureFlags,
@@ -108,7 +108,6 @@ public class BatteryMeterViewController extends ViewController<BatteryMeterView>
         super(view);
         mUserTracker = userTracker;
         mConfigurationController = configurationController;
-        mTunerService = tunerService;
         mMainHandler = mainHandler;
         mContentResolver = contentResolver;
         mBatteryController = batteryController;
@@ -135,11 +134,9 @@ public class BatteryMeterViewController extends ViewController<BatteryMeterView>
         mBatteryController.addCallback(mBatteryStateChangeCallback);
 
         registerShowBatteryPercentObserver(mUserTracker.getUserId());
-        registerShowBatteryPercentObserver(ActivityManager.getCurrentUser());
-        registerBatteryStyleObserver(ActivityManager.getCurrentUser());
+        registerBatteryStyleObserver(mUserTracker.getUserId());
         registerGlobalBatteryUpdateObserver();
         mUserTracker.addCallback(mUserChangedCallback, new HandlerExecutor(mMainHandler));
-
         mView.updateShowPercent();
     }
 
