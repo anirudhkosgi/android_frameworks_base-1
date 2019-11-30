@@ -76,6 +76,14 @@ public class BatteryMeterViewControllerTest extends SysuiTestCase {
 
         mFeatureFlags = new FakeFeatureFlags();
         mFeatureFlags.set(Flags.BATTERY_SHIELD_ICON, false);
+        mController = new BatteryMeterViewController(
+                mBatteryMeterView,
+                mConfigurationController,
+                mBroadcastDispatcher,
+                mHandler,
+                mContentResolver,
+                mBatteryController
+        );
     }
 
     @Test
