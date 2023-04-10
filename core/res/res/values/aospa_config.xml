@@ -126,4 +126,6 @@
          to disable DC dimming -->
     <string name="config_deviceDcDimmingDisableValue">0</string>
 
+    <!-- Whether to spoof device as Pixel XL for Google Photos -->
+    <bool name="config_spoofGooglePhotos">true</bool>
 </resources>
