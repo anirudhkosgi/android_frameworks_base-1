@@ -363,6 +363,8 @@ public class BatteryMeterView extends LinearLayout implements DarkReceiver {
            if (!TextUtils.equals(mBatteryPercentView.getText(), percentText)) {
                mBatteryPercentView.setText(percentText);
            }
+  
+    }       
 
     void updateShowPercent() {
         final boolean showing = mBatteryPercentView != null;
