@@ -278,11 +278,6 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
         mTrafficView = mStatusBar.findViewById(R.id.network_traffic);
         mSignalClusterEndPadding = getResources().getDimensionPixelSize(R.dimen.signal_cluster_battery_padding);
         mStatusIcons = mStatusBar.findViewById(R.id.statusIcons);
-        int batteryStyle = Settings.System.getInt(getContext().getContentResolver(),
-                Settings.System.STATUS_BAR_BATTERY_STYLE, 0);
-        mStatusIcons.setPadding(mStatusIcons.getPaddingLeft(), mStatusIcons.getPaddingTop(), (batteryStyle == 5/*hidden*/ ? 0 : mSignalClusterEndPadding), mStatusIcons.getPaddingBottom());
-        mBatteryMeterView = mStatusBar.findViewById(R.id.battery);
-        mBatteryMeterView.addCallback(mBatteryMeterViewCallback);
         mOngoingCallChip = mStatusBar.findViewById(R.id.ongoing_call_chip);
         showEndSideContent(false);
         showClock(false);

@@ -117,15 +117,6 @@ public class BatteryMeterViewController extends ViewController<BatteryMeterView>
 
         mSlotBattery = getResources().getString(com.android.internal.R.string.status_bar_battery);
         mSettingObserver = new SettingObserver(mMainHandler);
-        mCurrentUserTracker = new CurrentUserTracker(broadcastDispatcher) {
-            @Override
-            public void onUserSwitched(int newUserId) {
-                contentResolver.unregisterContentObserver(mSettingObserver);
-                registerShowBatteryPercentObserver(newUserId);
-                registerBatteryStyleObserver(newUserId);
-                mView.updateShowPercent();
-            }
-        };
     }
 
     @Override
@@ -137,6 +128,7 @@ public class BatteryMeterViewController extends ViewController<BatteryMeterView>
         registerBatteryStyleObserver(mUserTracker.getUserId());
         registerGlobalBatteryUpdateObserver();
         mUserTracker.addCallback(mUserChangedCallback, new HandlerExecutor(mMainHandler));
+
         mView.updateShowPercent();
     }
 

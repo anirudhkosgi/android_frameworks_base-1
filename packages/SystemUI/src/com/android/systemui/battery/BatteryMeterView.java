@@ -82,7 +82,6 @@ public class BatteryMeterView extends LinearLayout implements DarkReceiver {
     private final AccessorizedBatteryDrawable mAccessorizedDrawable;
     private final CircleBatteryDrawable mCircleDrawable;
     private final FullCircleBatteryDrawable mFullCircleDrawable;
-
     private final ImageView mBatteryIconView;
     private TextView mBatteryPercentView;
 
@@ -129,7 +128,6 @@ public class BatteryMeterView extends LinearLayout implements DarkReceiver {
         final int frameColor = atts.getColor(R.styleable.BatteryMeterView_frameColor,
                 context.getColor(R.color.meter_background_color));
         mPercentageStyleId = atts.getResourceId(R.styleable.BatteryMeterView_textAppearance, 0);
-        mDrawable = new AccessorizedBatteryDrawable(context, frameColor);
         mAccessorizedDrawable = new AccessorizedBatteryDrawable(context, frameColor);
         mCircleDrawable = new CircleBatteryDrawable(context, frameColor);
         mFullCircleDrawable = new FullCircleBatteryDrawable(context, frameColor);
@@ -339,9 +337,12 @@ public class BatteryMeterView extends LinearLayout implements DarkReceiver {
             } else {
                 setPercentTextAtCurrentLevel();
             }
+        } else {
+            updateContentDescription();
+        }
+    }
 
     private void setPercentTextAtCurrentLevel() {
-
         if (mBatteryPercentView != null) {
             mEstimateText = null;
             // Use the high voltage symbol ⚡ (u26A1 unicode) but prevent the system
@@ -350,7 +351,7 @@ public class BatteryMeterView extends LinearLayout implements DarkReceiver {
             CharSequence mChargeIndicator = mCharging && (mBatteryStyle == BATTERY_STYLE_TEXT)
                 ? (bolt + " ") : "";
             String percentText = mChargeIndicator + NumberFormat.getPercentInstance().format(mLevel / 100f);
-            String percentText = NumberFormat.getPercentInstance().format(mLevel / 100f);
+//            String percentText = NumberFormat.getPercentInstance().format(mLevel / 100f);
             // Setting text actually triggers a layout pass (because the text view is set to
             // wrap_content width and TextView always relayouts for this). Avoid needless
             // relayout if the text didn't actually change.
@@ -546,24 +547,6 @@ public class BatteryMeterView extends LinearLayout implements DarkReceiver {
             break;
             case BATTERY_STYLE_PORTRAIT:
             mBatteryIconView.setImageDrawable(mAccessorizedDrawable);
-            break;
-            case BATTERY_STYLE_FULL_CIRCLE:
-            mBatteryIconView.setImageDrawable(mFullCircleDrawable);
-            break;
-            default:
-            mCircleDrawable.setMeterStyle(mBatteryStyle);
-            mBatteryIconView.setImageDrawable(mCircleDrawable);
-            break;
-        }
-    }
-
-    public void updateBatteryStyle() {
-        switch (mBatteryStyle) {
-            case BATTERY_STYLE_TEXT:
-            case BATTERY_STYLE_HIDDEN:
-            break;
-            case BATTERY_STYLE_PORTRAIT:
-            mBatteryIconView.setImageDrawable(mThemedDrawable);
             break;
             case BATTERY_STYLE_FULL_CIRCLE:
             mBatteryIconView.setImageDrawable(mFullCircleDrawable);
